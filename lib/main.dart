@@ -474,11 +474,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
+  // Updated list of widgets for the bottom navigation bar
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreenContent(),
-    CategoriesPage(), // Updated
-    MyCartPage(), // Updated
-    ProfilePage(), // New
+    CategoriesPage(),
+    EducationPage(), // Education page added here
+    MyCartPage(),
+    ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
@@ -518,12 +520,12 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.shopping_cart_outlined),
             onPressed: () {
-              _onItemTapped(2); // Navigate to cart page
+              // Now "Cart" is at index 3 in the bottom nav bar
+              _onItemTapped(3);
             },
           ),
         ],
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -533,6 +535,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.category_outlined),
             label: 'Categories',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined), // Education icon
+            label: 'Education',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_bag_outlined),
@@ -549,6 +555,7 @@ class _HomePageState extends State<HomePage> {
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed, // Ensures all labels are visible
       ),
+      body: _widgetOptions.elementAt(_selectedIndex),
     );
   }
 }
@@ -1256,7 +1263,7 @@ class _MyCartPageState extends State<MyCartPage> {
                                               shape: BoxShape.circle,
                                               color: Colors.green,
                                             ),
-                                            child: const Icon(Icons.add, size: 18, color: Colors.white),
+                                            child: const Icon(Icons.add, color: Colors.white, size: 18),
                                           ),
                                         ),
                                       ],
@@ -1630,6 +1637,7 @@ class ProfilePage extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const NotificationsPage()),
               );
             }),
+            // Removed Education from here as it's now in bottom nav
             _buildProfileOption(context, Icons.info_outline, 'About', () {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('About clicked')),
@@ -1678,6 +1686,44 @@ class ProfilePage extends StatelessWidget {
         title: Text(title, style: const TextStyle(fontSize: 16)),
         trailing: const Icon(Icons.chevron_right),
         onTap: onTap,
+      ),
+    );
+  }
+}
+
+// Education Page (Placeholder)
+class EducationPage extends StatelessWidget {
+  const EducationPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Education', style: TextStyle(color: Colors.black)),
+        automaticallyImplyLeading: false, // Hide back button for bottom nav tab
+      ),
+      body: const Center(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.menu_book, size: 80, color: Colors.green),
+              SizedBox(height: 24),
+              Text(
+                'Education Content Coming Soon!',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'This section will feature articles, tutorials, and tips related to healthy eating, sustainable living, and more.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, color: Colors.grey),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
